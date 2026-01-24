@@ -1,3 +1,5 @@
+package Exercise11_11;
+
 public class Triangle extends GeometricObject{
     //default data fields
     double side1 = 1.0;

@@ -1,3 +1,4 @@
+package Exercise11_11;
 import java.util.Scanner;
 
 public class Exercise11_11 {
@@ -27,7 +28,12 @@ public class Exercise11_11 {
         System.out.println("The area of the triangle is:" + newTriangle.getArea());
         System.out.println("The perimeter of the triangle is: "+ newTriangle.getPerimeter());
         System.out.println("The color of the triangle is: "+ newTriangle.getColor());
-        System.out.println("Is the triangle filled?: " + newTriangle.isFilled());
+        if(newTriangle.isFilled()){
+            System.out.println("The triangle is filled");
+        }else{
+            System.out.println("The triangle is not filled");
+        }
+        
     }
     
 }
