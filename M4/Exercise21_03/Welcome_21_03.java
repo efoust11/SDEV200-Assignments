@@ -5,4 +5,6 @@ public class Welcome_21_03 {
         System.out.println("Welcome to Java break");
     }
     //comment with keywords: break, boolean
+    /*multi-line comment with keywords:
+    break, boolean */
 }

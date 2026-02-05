@@ -11,8 +11,8 @@ public class Exercise21_03 {
 
     File file = new File(filename);
     if (file.exists()) {
-      System.out.println("The number of words in " + filename 
-        + " that are keywords is " + countKeywords(file));
+      System.out.println("The number of keywords in " + filename 
+        + " is " + countKeywords(file));
     }
     else {
       System.out.println("File " + filename + " does not exist");
@@ -43,32 +43,33 @@ public class Exercise21_03 {
       String word = input.nextLine().trim();
       //take entire line, check if its a comment,
       if(word.contains("/*")){
+        //if the line begins a multiline comment, skip until the comment ends
         skip = true;
       }
       else if(word.startsWith("//")){
-        
+        //if line is a comment, do nothing
       }else{
         //System.out.println("test");
         String[] Strings = word.split("\"");
         boolean inString = false;
         for(String s: Strings){
-          //the first section of the string will not contain a string. 
-          //if there's a quote, skip that until the next section
+          //the first section of the line will not contain a string
+          //if there's a quotation mark, skip that section until the next quotation mark
           if(!inString & !skip){
+            //split the section up into words and check for keywords
             String[] words = s.split(" ");
             for(String eachword: words){
+              //if there's a keyword, increase the count
               if(keywordSet.contains(eachword)){
                 count++;
               }
             }
           }
+          //reverse the 'inString' variable at the end of the loop. If there are quotes in the line, every other section will be a string
           inString = !inString;
         }
       }
-      //System.out.println(word);
-
       //Stop skipping at the end of a multiline comment
-      
       if(word.contains("*/")){
         skip = false;
       }
