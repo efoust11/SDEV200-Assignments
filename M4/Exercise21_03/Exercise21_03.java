@@ -12,7 +12,7 @@ public class Exercise21_03 {
     File file = new File(filename);
     if (file.exists()) {
       System.out.println("The number of words in " + filename 
-        + " that are not keywords is " + countKeywords(file));
+        + " that are keywords is " + countKeywords(file));
     }
     else {
       System.out.println("File " + filename + " does not exist");
@@ -32,18 +32,46 @@ public class Exercise21_03 {
       "strictfp", "super", "switch", "synchronized", "this",
       "throw", "throws", "transient", "try", "void", "volatile",
       "while", "true", "false", "null"};
-
+    
     Set<String> keywordSet = 
       new HashSet<>(Arrays.asList(keywordString));
     int count = 0;    
 
     Scanner input = new Scanner(file);
-
+    boolean skip = false;
     while (input.hasNext()) {
-      String word = input.next();
-      if (!keywordSet.contains(word)){
-        count++;
-      } // Test if word is a keyword
+      String word = input.nextLine().trim();
+      //take entire line, check if its a comment,
+      if(word.contains("/*")){
+        skip = true;
+      }
+      else if(word.startsWith("//")){
+        
+      }else{
+        //System.out.println("test");
+        String[] Strings = word.split("\"");
+        boolean inString = false;
+        for(String s: Strings){
+          //the first section of the string will not contain a string. 
+          //if there's a quote, skip that until the next section
+          if(!inString & !skip){
+            String[] words = s.split(" ");
+            for(String eachword: words){
+              if(keywordSet.contains(eachword)){
+                count++;
+              }
+            }
+          }
+          inString = !inString;
+        }
+      }
+      //System.out.println(word);
+
+      //Stop skipping at the end of a multiline comment
+      
+      if(word.contains("*/")){
+        skip = false;
+      }
     }
     input.close();
     return count;
