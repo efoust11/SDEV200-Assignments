@@ -288,13 +288,13 @@ class TwoWayLinkedList<E> implements MyList<E> {
     }
   }
 
-  private class Node<E> {
+  public class Node<E> {
     E element;
     Node<E> next;
     Node<E> previous;
 
-    public Node(E o) {
-      element = o;
+    public Node(E e) {
+      element = e;
     }
   }
 
@@ -323,13 +323,21 @@ class TwoWayLinkedList<E> implements MyList<E> {
     Node<E> newNode = new Node<>(e);
     newNode.next = head;
     head = newNode;
+    if(newNode.next != null){
+      newNode.next.previous = newNode;
+    }
     size++;
+    if(tail == null){
+      tail = head;
+    }
   }
 
   /** Add an element to the end of the list */
   public void addLast(E e) {
     // WRITE YOUR CODE HERE
     Node<E> newNode = new Node<>(e);
+    newNode.previous = tail;
+    newNode.previous.next = newNode;
     tail = newNode;
     size++;
   }
@@ -339,13 +347,14 @@ class TwoWayLinkedList<E> implements MyList<E> {
    * head element is 0
    */
   public void add(int index, E e) {
+    
     // WRITE YOUR CODE HERE
     if(index == 0){
         addFirst(e);
     }
     else if (index >= size){
         addLast(e);
-    }else if(index <= size/2){
+    }else {
         Node<E> current = head;
         for(int i = 1; i < index; i++){
             current = current.next;
@@ -353,16 +362,9 @@ class TwoWayLinkedList<E> implements MyList<E> {
         Node<E> temp = current.next;
         current.next = new Node<>(e);
         (current.next).next = temp;
+
+        (current.next).previous = current;
         size++;
-    }else{
-       Node<E> current = tail;
-        for(int i = index; i > 0; i--){
-            current = current.previous;
-        }
-        Node<E> temp = current.previous;
-        current.previous = new Node<>(e);
-        (current.previous).previous = temp;
-        size++; 
     }
   }
 
@@ -418,22 +420,13 @@ class TwoWayLinkedList<E> implements MyList<E> {
         return removeFirst();
     } else if(index == size - 1){
         return removeLast();
-    } else if(index <= size/2){
+    } else{
         Node<E> previous = head;
         for(int i = 1; i < index; i++){
             previous = previous.next;
         }
         Node<E> current = previous.next;
         previous.next = current.next;
-        size--;
-        return current.element;
-    } else{
-        Node<E> next = tail;
-        for(int i = size; i < 0; i--){
-            next = next.previous;
-        }
-        Node<E> current = next.previous;
-        next.previous = current.previous;
         size--;
         return current.element;
     }
